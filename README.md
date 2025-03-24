@@ -12,11 +12,7 @@
 
   ### 배포 링크 : <a href="http://www.salog.kro.kr" target="_blank">Salog</a>
 
-  ### 테스트용 계정
-    - id : salogtest123@gmail.com
-    - pw : salogtest123!@#
-
-  </div>
+</div>
 
 <br>
 
