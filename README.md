@@ -1,12 +1,7 @@
 # 📒 가계부 작성 및 일기 기록 웹서비스 Salog
 
 <div align="center">
-<img width="1082" alt="main" src="https://github.com/kimtjrgus/salog/assets/120611048/f4391ed8-e8ad-41db-9e4e-ac3f8878e385">
-</div>
-
-  ![Component 70](https://github.com/kimtjrgus/salog/assets/120611048/52114883-7a5f-43b0-8a3a-a26072be37a3)
-
-<div align="center">
+<img width="1082" alt="main" src="https://github.com/kimtjrgus/salog/assets/120611048/52114883-7a5f-43b0-8a3a-a26072be37a3">
 
   ### 프로젝트 기간 : 2023.11.17 ~ ing
 
@@ -311,9 +306,9 @@
 
 ![](https://private-user-images.githubusercontent.com/119563406/344874225-3cf05487-3dfc-420d-8e08-cb42b048b8d1.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTk4OTQxMTMsIm5iZiI6MTcxOTg5MzgxMywicGF0aCI6Ii8xMTk1NjM0MDYvMzQ0ODc0MjI1LTNjZjA1NDg3LTNkZmMtNDIwZC04ZTA4LWNiNDJiMDQ4YjhkMS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwNzAyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDcwMlQwNDE2NTNaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT00ZmRmYzI1M2RiYjZkMWU3NWVmN2I4MjUxMzQ4MDZhNWM1NGI3OWRhMmIzNmJkMDA1MDI0ZTk3ODgzNDlkMzA5JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.ZL1RXN64NpLafKVcFZwkPI1lWAi94RVy1DdlphqsXbY)
 
-<br>
-<br>
-<br>
+
+<br />
+<br />
 
 ## 🖥️ 페이지 별 기능 
 
@@ -323,9 +318,10 @@
 
 | 초기화면 |
 |----------|
-|![2024-03-023 37 14-ezgif com-video-to-gif-converter](https://github.com/kimtjrgus/salog/assets/120611048/b623fcf4-24ba-46b5-a755-bb665b288802)|
+|![2024-03-083 49 55-ezgif com-video-to-gif-converter](https://github.com/kimtjrgus/Salog/assets/120611048/9845e1ed-a2ae-4e90-bec9-42eab7c0e0fd)|
 
-<br>
+<br />
+<br />
 
 ### [회원가입]
 - 이메일 주소와 비밀번호를 입력할 때, 입력창에서 벗어나면 유효성 검사가 진행되고 통과하지 못한 경우 각 경고 문구가 입력창 하단에 표시됩니다.
@@ -341,7 +337,8 @@
 |----------|
 |![2024-03-024 17 18-ezgif com-video-to-gif-converter](https://github.com/kimtjrgus/salog/assets/120611048/8c23808e-1636-435c-a717-4c2aeab5eb9b)|
 
-<br>
+<br />
+<br />
 
 ### [로그인]
 - 이메일과 비밀번호를 입력하여 로그인을 진행합니다.
@@ -362,6 +359,17 @@
 | 비밀번호 찾기 |
 |----------|
 |![2024-03-024 56 25-ezgif com-video-to-gif-converter](https://github.com/kimtjrgus/salog/assets/120611048/9e4d40b6-c4cd-4058-a8f4-46b9050bcfbb)|
+
+<br>
+
+### [비밀번호 변경 & 회원 탈퇴]
+- 기존 비밀번호, 새로운 비밀번호를 입력하여 비밀번호를 변경할 수 있습니다.
+- 회원 탈퇴를 한 뒤, 해당 계정으로 재가입이 가능합니다.
+- 설정 페이지에서 해당 기능들을 사용할 수 있습니다.
+
+| 비밀번호 변경 | 회원 탈퇴 |
+|:---:|:---:|
+|![2024-03-158 59 10-ezgif com-video-to-gif-converter](https://github.com/kimtjrgus/Salog/assets/120611048/7ded3643-a0ae-41ad-9e94-075dae104f4b)|![2024-03-159 02 38-ezgif com-video-to-gif-converter](https://github.com/kimtjrgus/Salog/assets/120611048/e02657b5-9acc-46ec-9559-cc5c34978ff0)|
 
 <br>
 
@@ -470,8 +478,20 @@
 
 <br>
 
+### [영수증 인식]
+- 영수증의 가계 이름, 지출 일, 총 합계의 항목을 인식하여 가계부를 작성할 수 있습니다.
+- 영수증 인식을 통하여 가계부를 작성하면 가계부 조회 시 영수증 사진을 볼 수 있습니다.
+- 대시보드 페이지, 지출&수입 페이지에서 가계부를 작성할 때 사용 가능합니다.
+- 이미지 업로드 -> 영수증 인식 -> 내용 확인 -> 자동작성의 플로우를 가집니다.
+
+| 영수증 인식(대시보드 페이지) | 영수증 인식(지출&수입 페이지) |
+|:---:|:---:|
+|![2024-03-159 13 28-ezgif com-video-to-gif-converter](https://github.com/kimtjrgus/Salog/assets/120611048/4399bb91-b6a4-47d9-ac69-49ff0df71766)|![2024-03-159 16 49-ezgif com-video-to-gif-converter](https://github.com/kimtjrgus/Salog/assets/120611048/813f0f05-cb88-4bc2-9db8-7565155d8b8a)|
+
+<br>
+
 ### [알림]
-- 웹 알림, 이메일 알림이 있습니다.
+- 웹 알림이 있습니다.
   - 웹 알림은 헤더의 알림 아이콘을 클릭하여 확인 가능하며, 알람을 확인 후 삭제하면 로컬 저장소에 저장되어 알림이 다시 발송되지 않습니다. 
 - 고정 지출 및 수입에서 일정이 3일 미만인 항목들만 알림을 발송하며, 일정 당일날에는 해당 목록들을 가계부에 추가하는 것을 묻는 모달을 보여줍니다.
 - 알림 설정은 회원 가입 시 가능하며, 헤더의 알림 아이콘을 클릭하면 하단의 스위치를 통하여 on/off 가능합니다.
@@ -523,10 +543,9 @@
 | 일기 수정 & 삭제 |
 |:---:|
 |![2024-03-029 21 13-ezgif com-video-to-gif-converter](https://github.com/kimtjrgus/salog/assets/120611048/c3cb819c-f062-4670-9b25-f5c555604c06)|
- 
-<br>
-<br>
-<br>
+
+<br />
+<br />
 
 ## 🎆 개선 목표
 
