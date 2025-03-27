@@ -370,23 +370,163 @@
 - **⚙️작업 내용**  
   + 글로벌 예외 처리를 위해 `GlobalExceptionAdvice` 클래스를 구현하여 다양한 예외 상황을 처리
   + `BusinessLogicException`과 `ErrorCode` 클래스를 구현하여 각 서비스에 맞는 예외 상황을 처리
+  + `ErrorResponse` 클래스를 구현하여 적절한 구조로 에러 응답
 
 - **🔍방법**  
-  + ▶ **예외 처리 메서드 구현**  
+  + ▶ **글로벌 예외 처리 메서드 구현**  
     - `@ExceptionHandler` 어노테이션을 사용하여 특정 예외를 처리하는 메서드를 정의
-      - **`handleMethodArgumentNotValidException`**: 요청의 바디가 Bean Validation 조건에 맞지 않을 때 발생하는 예외를 처리. 유효성 검사 실패 시 적절한 에러 응답을 반환
-      - **`handleConstraintViolationException`**: Bean Validation 조건에 맞지 않는 필드가 있을 경우 발생하는 예외를 처리. 각 필드의 오류를 상세히 응답
-      - **`handleBusinessLogicException`**: 비즈니스 로직에서 발생하는 예외를 처리하며, 커스텀 에러 코드를 사용해 세부 정보를 제공
-      - **기타 예외 처리**: 지원하지 않는 HTTP 메소드 요청, 요청 바디를 읽을 수 없는 경우, 누락된 요청 파라미터 등을 처리하는 메서드를 구현
-      - **기본 예외 처리**: 위의 경우에 해당하지 않는 모든 예외를 처리하여 내부 서버 오류 응답을 반환
+    - **`handleMethodArgumentNotValidException`**: 요청의 바디가 Bean Validation 조건에 맞지 않을 때 발생하는 예외를 처리. 유효성 검사 실패 시 적절한 에러 응답을 반환
+    - **`handleConstraintViolationException`**: Bean Validation 조건에 맞지 않는 필드가 있을 경우 발생하는 예외를 처리. 각 필드의 오류를 상세히 응답
+    - **`handleBusinessLogicException`**: 비즈니스 로직에서 발생하는 예외를 처리하며, 커스텀 에러 코드를 사용해 세부 정보를 제공
+    - **기타 예외 처리**: 지원하지 않는 HTTP 메소드 요청, 요청 바디를 읽을 수 없는 경우, 누락된 요청 파라미터 등을 처리하는 메서드를 구현
+    - **기본 예외 처리**: 위의 경우에 해당하지 않는 모든 예외를 처리하여 내부 서버 오류 응답을 반환
+
+  + ▶ **인증/인가**
+    - **JWT 인증 에러 처리**  
+      - `JwtVerificationFilter` 클래스에서 JWT 검증 중 발생하는 예외를 처리
+      - `ExpiredJwtException`: 만료된 JWT 토큰이 제공된 경우, 해당 예외를 요청 속성에 설정
+      - 기타 예외: 일반적인 예외 발생 시 요청 속성에 예외를 설정
+
+    - **Access Denied 핸들러**  
+      - `MemberAccessDeniedHandler` 클래스를 구현하여 접근 거부 시 에러 응답을 반환
+      - `handle` 메서드를 통해 HTTP 403 상태 코드와 함께 에러 응답을 전송하고, 경고 로그를 기록
+
+    - **Authentication Entry Point**  
+      - `MemberAuthenticationEntryPoint` 클래스를 구현하여 인증 실패 시 에러 응답을 반환
+      - `commence` 메서드에서 HTTP 401 상태 코드와 함께 에러 응답을 전송하고, 경고 로그를 기록
+      - 예외 메시지를 로그에 남겨 인증 오류를 추적
+
+    - **Authentication Failure 핸들러**  
+      - `MemberAuthenticationFailureHandler` 클래스를 구현하여 인증 실패 시 적절한 에러 메시지를 반환
+      - `onAuthenticationFailure` 메서드에서 비밀번호 불일치 또는 회원 미가입 등의 경우에 따라 적절한 에러 응답을 전송하며, 에러 로그를 기록
+
+    - **OAuth 인증 처리**  
+      - OAuth 인증 과정에서 액세스 토큰 및 사용자 이메일을 요청하고 응답을 처리
+      - 상태 코드 200 이외의 경우, 실패 메시지를 반환하고 로그를 기록
   
   + ▶ **회원**
+    - **회원 생성**  
+      - `createMember` 메서드에서 이메일 중복 여부를 확인하고, 이미 존재하는 이메일인 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `EMAIL_EXIST`
+  
+    - **회원 정보 수정**  
+      - `updateMember` 메서드에서 JWT를 통해 인증된 회원 정보를 업데이트
+      - `updatePassword` 메서드에서 현재 비밀번호와 새 비밀번호를 비교하여, 비밀번호가 일치하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `PASSWORD_MISMATCHED`, `PASSWORD_IDENTICAL`
+  
+    - **비밀번호 찾기**  
+      - `findPassword` 메서드에서 이메일로 회원을 찾고, 존재하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_NOT_FOUND`
+  
+    - **회원 조회**  
+      - `findMember` 메서드에서 JWT를 통해 인증된 회원 정보를 조회하고, 존재하지 않는 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_NOT_FOUND`
+  
+    - **회원 삭제**  
+      - `deleteMember` 메서드에서 회원을 삭제하며, 존재하지 않는 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_NOT_FOUND`
+  
+    - **회원 존재 여부 확인**  
+      - `findVerifiedMember` 메서드에서 주어진 ID로 회원을 찾고, 존재하지 않는 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_NOT_FOUND`
+  
+    - **이메일 발송**  
+      - `sendEmail` 메서드에서 이메일 발송 중 발생할 수 있는 예외를 처리하여, 메일 발신 및 수신 오류 시 `MessagingException`을 발생시킴
+  
+    - **회원 인증 확인**  
+      - `verifiedRequest` 메서드에서 요청한 회원과 토큰의 회원 ID가 일치하지 않는 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_MISMATCHED`
+  
+    - **소셜 회원 확인**  
+      - `socialCheck` 메서드에서 소셜 가입한 회원인지 확인하고, 비밀번호가 없는 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `SOCIAL_MEMBER`
 
   + ▶ **수입**
+    - **수입 생성**  
+      - `createIncome` 메서드에서 유효하지 않은 연도가 입력될 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_YEAR`
+      - 태그 처리 중 유효하지 않은 태그가 입력될 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `TAG_UNVALIDATED`
+
+    - **수입 수정**  
+      - `updateIncome` 메서드에서 존재하지 않는 수입 ID를 요청할 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INCOME_NOT_FOUND`
+      - 수입 소속 회원과 요청한 회원이 일치하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_MISMATCHED`
+
+    - **수입 조회**  
+      - `getIncomes` 메서드에서 날짜 형식이 유효하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_DATE_FORMAT`
+      - 월 유효성 검사에서 잘못된 월이 입력될 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_MONTH`
+      - 일 유효성 검사에서 잘못된 일이 입력될 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_DAY`
+
+    - **수입 삭제**  
+      - `deleteIncome` 메서드에서 존재하지 않는 수입 ID를 요청할 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INCOME_NOT_FOUND`
+      - 수입 소속 회원과 요청한 회원이 일치하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_MISMATCHED`
+
+    - **날짜 범위 조회**  
+      - `getIncomesByDateRange` 메서드에서 시작 날짜와 종료 날짜의 유효성을 검사하여 잘못된 날짜 범위일 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_START_DAY`, `INVALID_END_DAY`, `INVALID_DATE_RANGE`
+
+    - **월별 수입 조회**  
+      - `getMonthlyIncome` 메서드에서 월별 조회 시 연도 유효성 검사를 통해 잘못된 연도가 입력될 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_YEAR`
+      - 월 유효성 검사를 통해 잘못된 월이 입력될 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_MONTH`
 
   + ▶ **고정 수입**
+    - **고정 수입 생성**  
+      - `createFixedIncome` 메서드에서 고정 수입을 생성할 때, 관련된 회원을 찾지 못할 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_NOT_FOUND`
+  
+    - **고정 수입 수정**  
+      - `updateFixedIncome` 메서드에서 존재하지 않는 고정 수입 ID를 요청할 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `FIXED_INCOME_NOT_FOUND`
+      - 수입 소속 회원과 요청한 회원이 일치하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_MISMATCHED`
+
+    - **고정 수입 조회**  
+      - `getFixedIncomes` 메서드에서 날짜 형식이 유효하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_DATE_FORMAT`
+      - 월 유효성 검사에서 잘못된 월이 입력될 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_MONTH`
+      - 일 유효성 검사에서 잘못된 일이 입력될 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_DAY`
+
+    - **고정 수입 삭제**  
+      - `deleteFixedIncome` 메서드에서 존재하지 않는 고정 수입 ID를 요청할 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `FIXED_INCOME_NOT_FOUND`
+      - 수입 소속 회원과 요청한 회원이 일치하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_MISMATCHED`
+
+    - **고정 수입 확인**  
+      - `findVerifiedFixedIncome` 메서드에서 주어진 ID로 고정 수입을 찾지 못할 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `FIXED_INCOME_NOT_FOUND`
 
   + ▶ **예산**
+    - **예산 생성**  
+      - `createBudget` 메서드에서 이미 존재하는 예산이 있을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `BUDGET_EXIST`
+  
+    - **예산 수정**  
+      - `updateBudget` 메서드에서 존재하지 않는 예산 ID를 요청할 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `BUDGET_NOT_FOUND`
+      - 수입 소속 회원과 요청한 회원이 일치하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_MISMATCHED`
+
+    - **예산 조회**  
+      - `findBudget` 메서드에서 날짜 형식이 유효하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `INVALID_DATE_FORMAT` (필요시 추가)
+
+    - **예산 삭제**  
+      - `deleteBudget` 메서드에서 존재하지 않는 예산 ID를 요청할 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `BUDGET_NOT_FOUND`
+      - 수입 소속 회원과 요청한 회원이 일치하지 않을 경우 `BusinessLogicException`을 발생시킴
+        - **예외 코드**: `MEMBER_MISMATCHED`
   
   + ▶ **에러 응답 객체**  
     - `ErrorResponse` DTO 클래스를 사용하여 에러 응답을 구조화. 이 클래스는 상태 코드, 메시지, 필드 오류 및 제약 위반 오류를 포함
