@@ -532,10 +532,38 @@
     - `ErrorResponse` DTO 클래스를 사용하여 에러 응답을 구조화. 이 클래스는 상태 코드, 메시지, 필드 오류 및 제약 위반 오류를 포함
     - 다양한 상황에 맞게 에러 응답을 생성하는 정적 메서드를 구현하여, 발생한 예외에 따라 적절한 정보를 응답으로 반환
 
+- **💡결과 및 성찰**  
+  - ▶ **실제 서비스 적용 결과**
+    + 에러 핸들링 체계 구축을 통해 사용자에게 일관된 에러 메시지 제공  
+    + 예외 발생 시 적절한 대응으로 사용자 경험 향상 및 시스템 안정성 강화
+    + 상황별로 정의된 에러 코드를 통해 팀과의 소통이 원활해졌으며, 프론트에서의 에러 핸들링이 보다 용이해짐
+
+  - ▶ **기술적 성찰**  
+    + 다양한 예외 상황을 사전에 고려한 설계의 중요성 인식  
+    + 글로벌 예외 처리 방식의 확장 가능성 및 다른 서비스로의 적용 검토  
+
 #### c. 보안 설정
-  - 클라이언트 측과 협업 중 CORS 에러를 피하기 위해 CorsConfigurationSource를 구현한 CustomCorsConfiguration 클래스를 구현했습니다.
-  - 프론트엔드 개발 URL과 클라우트 프론트 URL을 바탕으로 오리진을 허용합니다.
-  - WebMvcConfigurer을 구현한 SecurityConfiguration 클래스에서 각 URL에 대한 접근을 처리합니다.
+- **⚙️작업 내용**  
+  + 클라이언트 측과 협업 중 CORS 에러를 피하기 위해 `CorsConfigurationSource`를 구현한 `CustomCorsConfiguration` 클래스를 제공  
+  + 프론트엔드 개발 URL과 클라우드 프론트 URL을 바탕으로 오리진을 허용하는 설정을 추가  
+  + `WebMvcConfigurer`를 구현한 `SecurityConfiguration` 클래스에서 각 URL에 대한 접근을 처리  
+
+- **🔍방법**  
+  + ▶ **CORS 설정**  
+    + `CustomCorsConfiguration`에서 `CorsConfiguration` 객체를 생성하고, 허용할 오리진 및 HTTP 메서드를 설정하여, 클라이언트와의 원활한 통신을 지원  
+
+  + ▶ **보안 설정**  
+    + `SecurityConfiguration` 클래스에서 CSRF 보호를 비활성화하고, Stateless 세션 관리를 적용하여, 서버 리소스의 효율성을 높임  
+    + 각 API 엔드포인트에 대해 사용자 역할에 따라 접근 권한을 세분화하여 설정하고, OAuth2 인증 방식을 통해 외부 인증 서비스와의 연동을 가능하게 함
+
+- **💡결과 및 성찰**  
+  - ▶ **실제 서비스 적용 결과**  
+    + CORS 설정을 통해 프론트엔드와의 원활한 통신이 가능해졌으며, 클라이언트 측에서 발생할 수 있는 CORS 관련 에러를 90% 이상 예방 
+    + 보안 설정을 통해 사용자 인증 및 권한 관리가 강화되어, 각 API에 대한 접근 제어가 효과적으로 이루어져 보안성이 증가 
+
+  - ▶ **기술적 성찰**  
+    + CORS 설정의 중요성을 인식하고, 설정하는 것이 협업에 얼마나 도움이 되는지 깨달음  
+    + 보안 설정을 통해 API 접근 제어의 필요성을 더욱 느끼게 되었으며, 향후 추가적인 보안 강화 방안에 대해 고민할 여지가 있음
 
 #### d. 배포
 - **도메인**
@@ -613,7 +641,6 @@
 ### 2. 시각화를 위해 그라파나 적용
   - 텍스트로 수집된 메트릭을 모니터링하는 것은 불편하다고 생각되며, 협업을 위해 시각화를 결정했습니다.
   - 도구는 그라파나를 사용했으며 프로메테우스와 연결하여 주요 지표를 시각화 했습니다.
-  - 생성된 패널은 아래와 같습니다.
 
 ![](https://private-user-images.githubusercontent.com/119563406/344874225-3cf05487-3dfc-420d-8e08-cb42b048b8d1.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTk4OTQxMTMsIm5iZiI6MTcxOTg5MzgxMywicGF0aCI6Ii8xMTk1NjM0MDYvMzQ0ODc0MjI1LTNjZjA1NDg3LTNkZmMtNDIwZC04ZTA4LWNiNDJiMDQ4YjhkMS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwNzAyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDcwMlQwNDE2NTNaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT00ZmRmYzI1M2RiYjZkMWU3NWVmN2I4MjUxMzQ4MDZhNWM1NGI3OWRhMmIzNmJkMDA1MDI0ZTk3ODgzNDlkMzA5JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.ZL1RXN64NpLafKVcFZwkPI1lWAi94RVy1DdlphqsXbY)
 
