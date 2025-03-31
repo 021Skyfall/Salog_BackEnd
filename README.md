@@ -22,72 +22,71 @@
 <br>
 
 ## ✔ 목차
-- [📄 기획서](#-기획서)
-- [💡 브랜치 전략](#-브랜치-전략)
-- [🔧 기술 스택](#-기술-스택)
-- [🛠 아키텍처 다이어그램](#-아키텍처-다이어그램)
-- [👥 팀원 구성](#-팀원-구성)
+- [📄 기획서](#-기획서)<p></p>
+- [💡 브랜치 전략](#-브랜치-전략)<p></p>
+- [🔧 기술 스택](#-기술-스택)<p></p>
+- [🛠 아키텍처 다이어그램](#-아키텍처-다이어그램)<p></p>
+- [👥 팀원 구성](#-팀원-구성)<p></p>
+- <details>
+  <summary>👨‍💻 <a href="#개인-역할">개인 역할</a></summary>
+  
+    <details>
+      <summary><a href="#a-인증-기능">A. 인증 기능</a></summary>
+      <ul>
+        <li><a href="#a-회원가입-시스템-설계-및-구현">a. 회원가입 시스템 설계 및 구현</a></li>
+        <li>b. 회원 RUD</li>
+        <li><a href="#c-로그인">c. 로그인</a></li>
+        <li><a href="#d-로그아웃">d. 로그아웃</a></li>
+        <li><a href="#e-토큰-재발급">e. 토큰 재발급</a></li>
+        <li><a href="#f-이메일-인증">f. 이메일 인증</a></li>
+      </ul>
+    </details>
 
-<details>
-  <summary><a href="#개인-역할">👨‍💻 개인 역할</a></summary>
+    <details>
+      <summary><a href="#b-가계부-기능">B. 가계부 기능</a></summary>
+      <ul>
+        <li><a href="#a-수입">a. 수입</a></li>
+        <li><a href="#b-고정-수입">b. 고정 수입</a></li>
+        <li><a href="#c-예산">c. 예산</a></li>
+      </ul>
+    </details>
 
-  <details>
-    <summary><a href="#a-인증-기능">A. 인증 기능</a></summary>
-    <ul>
-      <li><a href="#a-회원가입-시스템-설계-및-구현">a. 회원가입 시스템 설계 및 구현</a></li>
-      <li><a href="#b-회원-rud">b. 회원 RUD</a></li>
-      <li><a href="#c-로그인">c. 로그인</a></li>
-      <li><a href="#d-로그아웃">d. 로그아웃</a></li>
-      <li><a href="#e-토큰-재발급">e. 토큰 재발급</a></li>
-      <li><a href="#f-이메일-인증">f. 이메일 인증</a></li>
-    </ul>
+    <details>
+      <summary><a href="#c-기타-기능-및-역할">C. 기타 기능 및 역할</a></summary>
+      <ul>
+        <li><a href="#a-유효성-검사">a. 유효성 검사</a></li>
+        <li><a href="#b-에러-핸들링">b. 에러 핸들링</a></li>
+        <li><a href="#c-보안-설정">c. 보안 설정</a></li>
+        <li><a href="#d-배포">d. 배포</a></li>
+        <li><a href="#e-서버-통신-보안-강화">e. 서버 통신 보안 강화</a></li>
+      </ul>
+    </details>
+
+    <details>
+      <summary><a href="#d-테스트">D. 테스트</a></summary>
+      <ul>
+        <li><a href="#a-담당-도메인-전체-테스트">a. 담당 도메인 전체 테스트</a></li>
+        <li><a href="#b-통합-테스트-성능-향상">b. 통합 테스트 성능 향상</a></li>
+        <li><a href="#c-api-문서-자동화">c. API 문서 자동화</a></li>
+      </ul>
+    </details>
+
+    <details>
+      <summary><a href="#e-모니터링">E. 모니터링</a></summary>
+      <ul>
+        <li><a href="#a-부하-테스트">a. 부하 테스트</a></li>
+        <li><a href="#b-프로메테우스-적용">b. 프로메테우스 적용</a></li>
+        <li><a href="#c-그라파나-시각화">c. 그라파나 시각화</a></li>
+      </ul>
+    </details>
   </details>
 
-  <details>
-    <summary><a href="#b-가계부-기능">B. 가계부 기능</a></summary>
-    <ul>
-      <li><a href="#a-수입">a. 수입</a></li>
-      <li><a href="#b-고정-수입">b. 고정 수입</a></li>
-      <li><a href="#c-예산">c. 예산</a></li>
-    </ul>
-  </details>
-
-  <details>
-    <summary><a href="#c-기타-기능-및-역할">C. 기타 기능 및 역할</a></summary>
-    <ul>
-      <li><a href="#a-유효성-검사">a. 유효성 검사</a></li>
-      <li><a href="#b-에러-핸들링">b. 에러 핸들링</a></li>
-      <li><a href="#c-보안-설정">c. 보안 설정</a></li>
-      <li><a href="#d-배포">d. 배포</a></li>
-      <li><a href="#e-서버-통신-보안-강화">e. 서버 통신 보안 강화</a></li>
-    </ul>
-  </details>
-
-  <details>
-    <summary><a href="#d-테스트">D. 테스트</a></summary>
-    <ul>
-      <li><a href="#a-담당-도메인-전체-테스트">a. 담당 도메인 전체 테스트</a></li>
-      <li><a href="#b-통합-테스트-성능-향상">b. 통합 테스트 성능 향상</a></li>
-      <li><a href="#c-api-문서-자동화">c. API 문서 자동화</a></li>
-    </ul>
-  </details>
-
-  <details>
-    <summary><a href="#e-모니터링">E. 모니터링</a></summary>
-    <ul>
-      <li><a href="#a-부하-테스트">a. 부하 테스트</a></li>
-      <li><a href="#b-프로메테우스-적용">b. 프로메테우스 적용</a></li>
-      <li><a href="#c-그라파나-시각화">c. 그라파나 시각화</a></li>
-    </ul>
-  </details>
-
-</details>
-
-
-- [🖥️ 페이지 별 기능](#️-페이지-별-기능)
-- [🎆 개선 목표](#-개선-목표)
-- [📢 피드백](#-피드백)
+- [🖥️ 페이지 별 기능](#️-페이지-별-기능)<p></p>
+- [🎆 개선 목표](#-개선-목표)<p></p>
+- [📢 피드백](#-피드백)<p></p>
 - [🎉 프로젝트 후기](#-프로젝트-후기)
+
+
 
 <br>
 <br>
